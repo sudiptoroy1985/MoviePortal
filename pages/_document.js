@@ -1,0 +1,32 @@
+import Document, { Head, Main, NextScript } from "next/document";
+
+export default class MyDocument extends Document {
+  render() {
+    return (
+      <html lang="en">
+        <Head>
+            <meta name="description" content="A movies portal"></meta>
+            <meta charSet="utf-8"></meta>
+            <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet" />
+            <link rel="icon" type="image/png" href="/icon.png" />
+        </Head>
+        <body>
+            <Main />
+            <NextScript />
+        </body>
+        <style global jsx>{`
+            body {
+                margin: 0;
+                font-size: 110%;
+                background: #f0f0f0;
+                font-family: 'Bangers', cursive;
+                color: #ef5ba1;
+            }
+            p {
+              line-height: 0.5px;
+            }
+        `} </style>
+      </html>
+    );
+  }
+}
