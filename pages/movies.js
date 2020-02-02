@@ -12,6 +12,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Badge from "@material-ui/core/Badge";
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+
 
 export default class Movies extends Component {
   static async getInitialProps() {
@@ -68,7 +70,10 @@ export default class Movies extends Component {
           </FormControl>
           <div className="Favourites">
           <Badge badgeContent={this.state.favourites} color="primary">
-            <FavoriteIcon />
+             {this.state.favourites > 0 ? 
+             <FavoriteIcon style={{ fontSize: 35 }} /> : 
+             <FavoriteBorderIcon style={{ fontSize: 35 }} />
+              }
           </Badge>
           </div>
           </div>
