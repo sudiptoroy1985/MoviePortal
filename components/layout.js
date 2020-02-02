@@ -11,12 +11,7 @@ export default({children, title}) => (
                 <Link href="/movies">
                     <a>Movies</a>
                 </Link>
-                <Link href="/series">
-                    <a>Series</a>
-                </Link>
-                <Link href="/favourites">
-                    <a>Favourites</a>
-                </Link>
+                <input type="text" />
         </header>
 
         {children}
