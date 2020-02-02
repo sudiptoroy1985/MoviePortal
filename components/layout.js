@@ -9,9 +9,8 @@ export default({children, title}) => (
         </Head>
         <header>
                 <Link href="/movies">
-                    <a>Movies</a>
+                    <a>Movies Rental</a>
                 </Link>
-                <input type="text" />
         </header>
 
         {children}
@@ -28,14 +27,15 @@ export default({children, title}) => (
             header {
                 width: 100%;
                 display: flex;
-                justify-content: space-evenly;
-                padding: 1em;
-                font-size: 1.2rem;
                 background: #ef5ba1;
+                padding-left: 30%;
             }
             header a {
-                color: #fff;
+                color: #000;
+                opacity: 0.5;
                 text-decoration: none;
+                margin: 20px;
+                font-size: 1.5em;
             }
             header a:hover {
                 font-weigth: bold;

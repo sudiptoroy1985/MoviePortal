@@ -7,7 +7,7 @@ export default class MyDocument extends Document {
         <Head>
             <meta name="description" content="A movies portal"></meta>
             <meta charSet="utf-8"></meta>
-            <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
             <link rel="icon" type="image/png" href="/icon.png" />
         </Head>
         <body>
@@ -19,8 +19,8 @@ export default class MyDocument extends Document {
                 margin: 0;
                 font-size: 110%;
                 background: #f0f0f0;
-                font-family: 'Bangers', cursive;
                 color: #ef5ba1;
+                font-family: 'Roboto', sans-serif;
             }
             p {
               line-height: 0.5px;
