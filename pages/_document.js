@@ -17,13 +17,12 @@ export default class MyDocument extends Document {
         <style global jsx>{`
             body {
                 margin: 0;
-                font-size: 110%;
                 background: #f0f0f0;
                 color: #ef5ba1;
                 font-family: 'Roboto', sans-serif;
             }
             p {
-              line-height: 0.5px;
+              line-height: 0.9px;
             }
         `} </style>
       </html>

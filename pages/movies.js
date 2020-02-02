@@ -10,12 +10,15 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Badge from "@material-ui/core/Badge";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 export default class Movies extends Component {
   static async getInitialProps() {
     const res = await fetch("https://api.myjson.com/bins/1bqcdq");
     const statusCode = res.status > 200 ? res.status : false;
     const data = await res.json();
+    data.forEach(movie => movie.isfavorite = true);
     return { movies: data, statusCode };
   }
 
@@ -25,7 +28,8 @@ export default class Movies extends Component {
     this.state = {
       movies: movies,
       filteredMovies: movies,
-      statusCode: statusCode
+      statusCode: statusCode,
+      favourites: 0
     };
   }
 
@@ -36,12 +40,17 @@ export default class Movies extends Component {
       )
     });
 
-  // handleYearChange = year => {
-  //   this.setState({
-  //     filteredMovies: year !== 'All' ? this.state.movies.filter(movie =>
-  //       movie.Year == year) : this.state.movies
-  //   })
-  // }
+  handleMarkAsFavourite = movieName => {
+     const movie = this.state.filteredMovies.find(movie => movie.Name === movieName);
+     if(movie){
+       movie.isfavorite = !movie.isfavorite; 
+       if(movie.isfavorite){
+        this.setState({ favourites: this.state.favourites - 1})
+       }else{
+         this.setState({ favourites: this.state.favourites + 1})
+       }
+     }
+  }
 
   render() {
     if (this.state.statusCode) {
@@ -54,29 +63,17 @@ export default class Movies extends Component {
           <FormControl>
               <Input
                 placeholder="Search movies"
-                onChange={e => this.handleSearch(e.target.value)}
+                onChange={e => this.handleSearch(e.target.value)} 
               />
           </FormControl>
-          {/* <FormControl>
-              <InputLabel id="demo-simple-select-helper-label">Movie year</InputLabel>
-              <Select
-                native
-                id="year-selection"
-                onChange={e => this.handleYearChange(e.target.value)}
-                value={'All'}
-              >
-                <option value={'All'}>All</option>
-                <option value={2016}>2016</option>
-                <option value={2017}>2017</option>
-                <option value={2018}>2018</option>
-                <option value={2019}>2019</option>
-                <option value={2020}>2020</option>
-                <option value={2021}>2021</option>
-              </Select>
-            </FormControl> } */}
+          <div className="Favourites">
+          <Badge badgeContent={this.state.favourites} color="primary">
+            <FavoriteIcon />
+          </Badge>
+          </div>
           </div>
           <div className="movie-list">
-            <ItemList movies={this.state.filteredMovies} />
+            <ItemList movies={this.state.filteredMovies} onMarkedAsFavorite={this.handleMarkAsFavourite}/>
           </div>
         </div>
         <style jsx>
@@ -87,15 +84,13 @@ export default class Movies extends Component {
 
             .search-pane {
               display: flex;
-              margin: 15px;
+              justify-content: space-between;
+              width: 105%;
+              margin: 15px 0 10px 0;
             }
 
             .container {
-              width: 70%;
-            }
-
-           input {
-              margin-right: 10px;
+              width: 60%;
             }
           `}
         </style>

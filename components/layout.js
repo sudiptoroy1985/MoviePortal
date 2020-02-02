@@ -28,7 +28,7 @@ export default({children, title}) => (
                 width: 100%;
                 display: flex;
                 background: #ef5ba1;
-                padding-left: 30%;
+                padding-left: 40%;
             }
             header a {
                 color: #000;
