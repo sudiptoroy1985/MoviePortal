@@ -55,7 +55,9 @@ export default class Movies extends Component {
   }
 
   render() {
-    if (this.state.statusCode) {
+    const { favourites, statusCode, filteredMovies} = this.state;
+
+    if (statusCode) {
       return <Error statusCode={statusCode} />;
     }
     return (
@@ -69,8 +71,8 @@ export default class Movies extends Component {
               />
           </FormControl>
           <div className="Favourites">
-          <Badge badgeContent={this.state.favourites} color="primary">
-             {this.state.favourites > 0 ? 
+          <Badge badgeContent={favourites} color="primary">
+             {favourites > 0 ? 
              <FavoriteIcon style={{ fontSize: 35 }} /> : 
              <FavoriteBorderIcon style={{ fontSize: 35 }} />
               }
@@ -78,24 +80,26 @@ export default class Movies extends Component {
           </div>
           </div>
           <div className="movie-list">
-            <ItemList movies={this.state.filteredMovies} onMarkedAsFavorite={this.handleMarkAsFavourite}/>
+            <ItemList movies={filteredMovies} onMarkedAsFavorite={this.handleMarkAsFavourite}/>
           </div>
         </div>
         <style jsx>
           {`
             .movie-list {
               display: flex;
+
+              flex-wrap: wrap;
             }
 
             .search-pane {
               display: flex;
               justify-content: space-between;
-              width: 105%;
-              margin: 15px 0 10px 0;
+              margin: 20px;
             }
 
             .container {
-              width: 60%;
+              width: 100%;
+              margin-left: 15px;
             }
           `}
         </style>

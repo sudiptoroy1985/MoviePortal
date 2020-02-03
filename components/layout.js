@@ -9,7 +9,7 @@ export default({children, title}) => (
         </Head>
         <header>
                 <Link href="/movies">
-                    <a>Movies Rental</a>
+                    <h1>Movies Rental</h1>
                 </Link>
         </header>
 
@@ -28,13 +28,11 @@ export default({children, title}) => (
                 width: 100%;
                 display: flex;
                 background: #ef5ba1;
-                padding-left: 40%;
             }
-            header a {
-                color: #000;
-                opacity: 0.5;
+            header h1 {
+                color: #fff;
                 text-decoration: none;
-                margin: 20px;
+                margin-left: 20px;
                 font-size: 1.5em;
             }
             header a:hover {

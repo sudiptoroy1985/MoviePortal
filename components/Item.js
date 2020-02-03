@@ -34,6 +34,7 @@ export default class Movies extends Component {
 
           .item-detail-properties {
             cursor: pointer;
+            margin: 1px;
           }
 
           .item-detail-properties:hover {
@@ -59,6 +60,9 @@ export default class Movies extends Component {
           .item-detail-properties-info {
               display: flex;
               justify-content: space-between;
+              padding: 5px;
+              background-color: #f9daf4;
+              border-radius: 0 0 10px 10px;
           }
 
           .favorite {
