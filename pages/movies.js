@@ -5,6 +5,7 @@ import { Component } from "react";
 import Error from "./_error";
 import Item from "../components/Item";
 import ItemList from "../components/ItemList";
+import db from '../db/loader';
 import FormControl from '@material-ui/core/FormControl';
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -15,22 +16,31 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 
+
 export default class Movies extends Component {
   static async getInitialProps() {
-    const res = await fetch("https://api.myjson.com/bins/1bqcdq");
-    const statusCode = res.status > 200 ? res.status : false;
-    const data = await res.json();
-    data.forEach(movie => movie.isfavorite = true);
-    return { movies: data, statusCode };
+    let movies = [];
+    let error = false;
+    try {
+      const document = await db
+                            .collection('movies')
+                            .doc('WezORFhYZdiFBIyMJGLn')
+                            .get();
+      movies = document.data().movies;
+    } catch(e) {
+      error = true;
+    }
+    return { movies: movies, error: error };
+
   }
 
   constructor(props) {
     super(props);
-    const { movies, statusCode } = this.props;
+    const { movies, error } = this.props;
     this.state = {
       movies: movies,
       filteredMovies: movies,
-      statusCode: statusCode,
+      error: error,
       favourites: 0
     };
   }
@@ -47,19 +57,19 @@ export default class Movies extends Component {
      if(movie){
        movie.isfavorite = !movie.isfavorite; 
        if(movie.isfavorite){
-        this.setState({ favourites: this.state.favourites - 1})
+        this.setState({ favourites: this.state.favourites + 1})
        }else{
-         this.setState({ favourites: this.state.favourites + 1})
+         this.setState({ favourites: this.state.favourites - 1})
        }
      }
   }
 
   render() {
-    const { favourites, statusCode, filteredMovies} = this.state;
+    const { favourites, error, filteredMovies} = this.state;
 
-    if (statusCode) {
-      return <Error statusCode={statusCode} />;
-    }
+    // if (error) {
+    //   return <Error statusCode={statusCode} />;
+    // }
     return (
       <Layout title="Movies">
         <div className="container">

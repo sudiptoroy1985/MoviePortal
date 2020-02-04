@@ -20,8 +20,9 @@ export default class Movies extends Component {
         <div className="item-detail-action">
           <div className="favorite" onClick={() => this.props.onMarkedAsFavorite(movie.Name)}>
             {movie.isfavorite ? 
-            (<FavoriteBorderIcon style={{ fontSize: 100 }} />) : 
-            (<FavoriteIcon style={{ fontSize: 100 }} />)}
+            (<FavoriteIcon style={{ fontSize: 100 }} />) :
+            (<FavoriteBorderIcon style={{ fontSize: 100 }} />) 
+            }
           </div>
         </div>
         <style jsx>{`
