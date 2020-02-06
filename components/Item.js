@@ -48,13 +48,14 @@ export default class Movies extends Component {
 
           .item-detail-action:hover {
               display: block;
+              transition:all 0.3s ease;
           }
 
           .item-detail-action {
             display: none;
             position: absolute;
             top: 28%;
-            left: 22%;
+            left: 15%;
             font-size: 5px;
           }
 

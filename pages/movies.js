@@ -15,61 +15,47 @@ import Badge from "@material-ui/core/Badge";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
-
-
 export default class Movies extends Component {
-  static async getInitialProps() {
-    let movies = [];
-    let error = false;
-    try {
-      const document = await db
-                            .collection('movies')
-                            .doc('WezORFhYZdiFBIyMJGLn')
-                            .get();
-      movies = document.data().movies;
-    } catch(e) {
-      error = true;
-    }
-    return { movies: movies, error: error };
-
-  }
-
   constructor(props) {
     super(props);
-    const { movies, error } = this.props;
+    const { movies } = this.props;
     this.state = {
       movies: movies,
       filteredMovies: movies,
-      error: error,
       favourites: 0
     };
   }
 
-  handleSearch = searchText =>
-    this.setState({
-      filteredMovies: this.state.movies.filter(movie =>
-        movie.Name.toLowerCase().startsWith(searchText.toLowerCase())
-      )
-    });
+  static getInitialProps = async () => {
+    const moviesRef = await db.collection('movies').get();
+    const movies = moviesRef.docs.map(p => p.data());
+    return { movies: movies };
+  }
 
-  handleMarkAsFavourite = movieName => {
+  search = async (searchText) => {
+    let query = db.collection('movies');
+    if(searchText){
+       query = query.where('Name', '==', searchText);
+    }
+    let queryResult = await query.get();
+    let searchedMovies = queryResult.docs.map(p => p.data());
+    this.setState({
+      filteredMovies: searchedMovies
+    });
+  }
+
+  toggleFavourite = async (movieName) => {
+     const { favourites } = this.state;
      const movie = this.state.filteredMovies.find(movie => movie.Name === movieName);
-     if(movie){
-       movie.isfavorite = !movie.isfavorite; 
-       if(movie.isfavorite){
-        this.setState({ favourites: this.state.favourites + 1})
-       }else{
-         this.setState({ favourites: this.state.favourites - 1})
-       }
-     }
+     movie.isfavorite = !movie.isfavorite; 
+      this.setState({
+       favourites: movie.isfavorite ? favourites + 1 : favourites - 1
+     });
   }
 
   render() {
-    const { favourites, error, filteredMovies} = this.state;
+    const { favourites, filteredMovies} = this.state;
 
-    // if (error) {
-    //   return <Error statusCode={statusCode} />;
-    // }
     return (
       <Layout title="Movies">
         <div className="container">
@@ -77,7 +63,7 @@ export default class Movies extends Component {
           <FormControl>
               <Input
                 placeholder="Search movies"
-                onChange={e => this.handleSearch(e.target.value)} 
+                onChange={e => this.search(e.target.value)} 
               />
           </FormControl>
           <div className="Favourites">
@@ -90,7 +76,7 @@ export default class Movies extends Component {
           </div>
           </div>
           <div className="movie-list">
-            <ItemList movies={filteredMovies} onMarkedAsFavorite={this.handleMarkAsFavourite}/>
+            <ItemList movies={filteredMovies} onMarkedAsFavorite={this.toggleFavourite}/>
           </div>
         </div>
         <style jsx>
