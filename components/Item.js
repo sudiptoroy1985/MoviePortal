@@ -20,8 +20,8 @@ export default class Movies extends Component {
         <div className="item-detail-action">
           <div className="favorite" onClick={() => this.props.onMarkedAsFavorite(movie.Name)}>
             {movie.isfavorite ? 
-            (<FavoriteIcon style={{ fontSize: 100 }} />) :
-            (<FavoriteBorderIcon style={{ fontSize: 100 }} />) 
+            (<FavoriteIcon style={{ fontSize: 40 }} />) :
+            (<FavoriteBorderIcon style={{ fontSize: 40 }} />) 
             }
           </div>
         </div>
@@ -35,11 +35,13 @@ export default class Movies extends Component {
 
           .item-detail-properties {
             cursor: pointer;
-            margin: 1px;
+            margin: 2px;
+            transition:all 0.4s ease;
           }
 
           .item-detail-properties:hover {
-            filter: brightness(40%);
+            filter: brightness(70%);
+            transform: scale(1.05);
           }
 
           .item-detail-properties:hover + .item-detail-action {
@@ -48,15 +50,18 @@ export default class Movies extends Component {
 
           .item-detail-action:hover {
               display: block;
-              transition:all 0.3s ease;
+          }
+
+          .item-detail-action:hover + .item-detail-properties {
+            filter: brightness(40%);
           }
 
           .item-detail-action {
             display: none;
             position: absolute;
-            top: 28%;
-            left: 15%;
-            font-size: 5px;
+            top: 25%;
+            left: 35%;
+            font-size: 1px;
           }
 
           .item-detail-properties-info {
@@ -64,7 +69,7 @@ export default class Movies extends Component {
               justify-content: space-between;
               padding: 5px;
               background-color: #f9daf4;
-              border-radius: 0 0 10px 10px;
+              border-radius: 0 0 5px 5px;
           }
 
           .favorite {

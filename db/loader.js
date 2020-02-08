@@ -16,6 +16,26 @@ const db = !firebase.apps.length ?
                 firebase.initializeApp(firebaseConfig).firestore(): 
                 firebase.app().firestore();
 
-export default db;
+
+
+export const loadMovies = async () =>  {
+    const moviesRef = await db.collection('movies').get(); 
+    const movies = moviesRef.docs.map(p => p.data());
+    return movies;
+};
+
+export const searchMovies = async (searchText) => {
+    let query = db.collection('movies');
+    if(searchText){
+       query = query.where('Name', '==', searchText);
+    }
+    let queryResult = await query.get();
+    let searchedMovies = queryResult.docs.map(p => p.data());
+    return searchedMovies;
+}
+
+
+
+
     
  
