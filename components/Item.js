@@ -19,7 +19,7 @@ export default class Movies extends Component {
         </div>
         <div className="item-detail-action">
           <div className="favorite" onClick={() => this.props.onMarkedAsFavorite(movie.Name)}>
-            {movie.isfavorite ? 
+            {movie.isFavourite ? 
             (<FavoriteIcon style={{ fontSize: 40 }} />) :
             (<FavoriteBorderIcon style={{ fontSize: 40 }} />) 
             }
@@ -59,9 +59,10 @@ export default class Movies extends Component {
           .item-detail-action {
             display: none;
             position: absolute;
-            top: 25%;
-            left: 35%;
+            top: 2%;
+            left: 70%;
             font-size: 1px;
+            background: transparent;
           }
 
           .item-detail-properties-info {

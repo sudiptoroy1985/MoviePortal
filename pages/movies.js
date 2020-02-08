@@ -5,7 +5,7 @@ import { Component } from "react";
 import Error from "./_error";
 import Item from "../components/Item";
 import ItemList from "../components/ItemList";
-import { loadMovies, searchMovies } from '../db/loader';
+import MovieRepository from '../repository/movieRepository';
 import FormControl from '@material-ui/core/FormControl';
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -15,32 +15,49 @@ import SearchItem from "../components/searchItem";
 import Favourites from "../components/favourites";
 
 export default class Movies extends Component {
+
+
+
   constructor(props) {
     super(props);
-    const { movies } = this.props;
+    const { movies, favourites } = this.props;
+    this.db = new MovieRepository();
     this.state = {
       movies: movies,
-      favourites: 0
+      favourites: favourites
     };
   }
 
   static getInitialProps = async () => {
-    return { movies: await loadMovies() };
+    let db = new MovieRepository();
+    return { movies: await db.loadMovies(), favourites: await db.loadTotalFavourites()};
   }
 
   search = async (searchText) => {
     this.setState({
-      filteredMovies: await searchMovies(searchText)
+      movies: await this.db.searchMovies(searchText)
     });
   }
 
   toggleFavourite = async (movieName) => {
-     const { favourites } = this.state;
-     const movie = this.state.movies.find(movie => movie.Name === movieName);
-     movie.isfavorite = !movie.isfavorite; 
-      this.setState({
-       favourites: movie.isfavorite ? favourites + 1 : favourites - 1
-     });
+    const { favourites } = this.state;
+    let toggledState = await this.db.toggleFavourite(movieName);
+    this.updateMovieFavouriteState(movieName, toggledState);
+    this.updateTotalFavouritesCount(toggledState, favourites);
+  }
+
+  updateTotalFavouritesCount = (toggledState, favourites) => {
+    this.setState({
+      favourites: toggledState ? favourites + 1 : favourites - 1
+    });
+  }
+
+  updateMovieFavouriteState = (movieName, toggledState) => {
+    let toggledMovie = this.state.movies.find(movie => movie.Name === movieName);
+    toggledMovie.isFavourite = toggledState;
+    this.setState({
+      movies: [...this.state.movies]
+    });
   }
 
   render() {
@@ -67,7 +84,6 @@ export default class Movies extends Component {
               width: 100%;
               margin-left: 15px;
             }
-
             .pane {
               display: flex;
               justify-content: space-between;
