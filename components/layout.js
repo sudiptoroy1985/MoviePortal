@@ -45,11 +45,12 @@ export default({children, title, favourites}) => (
             }
 
             header {
-                width: 100%;
-                margin-top: 30px;
+                width: 101%;
+                padding-top: 15px;
+                padding-left: 37px;
                 display: flex;
                 justify-contents: space-evenly;
-                border-bottom: 2px solid #ef5ba1;
+                background: #ef5ba1;
             }
             
             header a:hover {
@@ -60,11 +61,12 @@ export default({children, title, favourites}) => (
                 padding: 1em;
             }
             h1 {
-                color: #ef5ba1;
+                color: #fff;
             }
             div{
-                margin: 0 7px 10px 10px;
+                padding: 0 7px 10px 5px;
                 cursor: pointer;
+                color: #fff;
             }
         `}</style>
     </div>

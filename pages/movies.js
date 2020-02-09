@@ -12,7 +12,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import SearchItem from "../components/searchItem";
-import Favourites from "../components/favourites";
+import { NoSsr } from "@material-ui/core";
 
 export default class Movies extends Component {
 
@@ -40,17 +40,17 @@ export default class Movies extends Component {
   toggleFavourite = async (movieName) => {
     const { favourites } = this.state;
     let toggledState = await this.db.toggleFavourite(movieName);
-    this.updateMovieFavouriteState(movieName, toggledState);
-    this.updateTotalFavouritesCount(favourites, toggledState);
+    this.updateFavouriteMovieState(movieName, toggledState);
+    this.updateTotalFavouritesCountState(favourites, toggledState);
   }
 
-  updateTotalFavouritesCount = (favourites, toggledState) => {
+  updateTotalFavouritesCountState = (favourites, toggledState) => {
     this.setState({
       favourites: toggledState ? favourites + 1 : favourites - 1
     });
   }
 
-  updateMovieFavouriteState = (movieName, toggledState) => {
+  updateFavouriteMovieState = (movieName, toggledState) => {
     let toggledMovie = this.state.movies.find(movie => movie.Name === movieName);
     toggledMovie.isFavourite = toggledState;
     this.setState({
@@ -65,7 +65,9 @@ export default class Movies extends Component {
       <Layout title="Movies" favourites={favourites}>
         <div className="container">
           <div className="pane">
-            <SearchItem search={searchText => this.search(searchText)}/>
+            <NoSsr>
+             <SearchItem search={searchText => this.search(searchText)}/>
+            </NoSsr>
           </div>
           <div className="movie-list">
             <ItemList movies={movies} enableFavourites={true} onMarkedAsFavorite={this.toggleFavourite}/>
