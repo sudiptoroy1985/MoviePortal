@@ -18,7 +18,7 @@ export default class Favourites extends Component {
         <Layout title="Favourites">
         <div className="container">
           <div className="favourite-movie-list">
-            <ItemList movies={favouriteMovies} enableFavourites={false}/>
+            <ItemList movies={favouriteMovies} />
           </div>
         </div>
         </Layout>
