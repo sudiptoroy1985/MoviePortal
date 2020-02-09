@@ -19,9 +19,19 @@ export default class MovieRepository {
       return movies;
     };
 
+    loadFavouriteMovies = async () => {
+      const moviesRef = await this.isFavouritePredicate(this.movieCollection).get();
+      const movies = moviesRef.docs.map(p => p.data());
+      return movies;
+    }
+
+    isFavouritePredicate = (collectionRef) => collectionRef.where('isFavourite', '==', true)
+
     movieNamePredicate = (name, collectionRef) => collectionRef.where('Name', '==', name)
 
-    loadTotalFavourites = async () => {
+    yearPredicate = (year, collectionRef) => collectionRef.where('Year', '==', year)
+
+    loadFavouritesTotal = async () => {
        const moviesRef = await this.movieCollection.get();
        const favourites = moviesRef.docs.map(doc => doc.data().isFavourite);
        return favourites.reduce((accumulator, item) => accumulator + item,  0);

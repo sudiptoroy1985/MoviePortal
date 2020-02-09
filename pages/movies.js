@@ -16,8 +16,6 @@ import Favourites from "../components/favourites";
 
 export default class Movies extends Component {
 
-
-
   constructor(props) {
     super(props);
     const { movies, favourites } = this.props;
@@ -30,7 +28,7 @@ export default class Movies extends Component {
 
   static getInitialProps = async () => {
     let db = new MovieRepository();
-    return { movies: await db.loadMovies(), favourites: await db.loadTotalFavourites()};
+    return { movies: await db.loadMovies(), favourites: await db.loadFavouritesTotal()};
   }
 
   search = async (searchText) => {
@@ -43,10 +41,10 @@ export default class Movies extends Component {
     const { favourites } = this.state;
     let toggledState = await this.db.toggleFavourite(movieName);
     this.updateMovieFavouriteState(movieName, toggledState);
-    this.updateTotalFavouritesCount(toggledState, favourites);
+    this.updateTotalFavouritesCount(favourites, toggledState);
   }
 
-  updateTotalFavouritesCount = (toggledState, favourites) => {
+  updateTotalFavouritesCount = (favourites, toggledState) => {
     this.setState({
       favourites: toggledState ? favourites + 1 : favourites - 1
     });
@@ -64,14 +62,13 @@ export default class Movies extends Component {
     const { favourites, movies} = this.state;
 
     return (
-      <Layout title="Movies">
+      <Layout title="Movies" favourites={favourites}>
         <div className="container">
           <div className="pane">
             <SearchItem search={searchText => this.search(searchText)}/>
-            <Favourites favourites={this.state.favourites} />
           </div>
           <div className="movie-list">
-            <ItemList movies={movies} onMarkedAsFavorite={this.toggleFavourite}/>
+            <ItemList movies={movies} enableFavourites={true} onMarkedAsFavorite={this.toggleFavourite}/>
           </div>
         </div>
         <style jsx>

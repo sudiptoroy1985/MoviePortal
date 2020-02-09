@@ -7,7 +7,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 export default class Movies extends Component {
   render() {
-    const { movie } = this.props;
+    const { movie, enableFavourites } = this.props;
     return (
       <div className="item-detail">
         <div className="item-detail-properties">
@@ -17,14 +17,14 @@ export default class Movies extends Component {
             <MovieIcon />
           </div>
         </div>
-        <div className="item-detail-action">
+        {enableFavourites ? <div className="item-detail-action">
           <div className="favorite" onClick={() => this.props.onMarkedAsFavorite(movie.Name)}>
             {movie.isFavourite ? 
-            (<FavoriteIcon style={{ fontSize: 40 }} />) :
-            (<FavoriteBorderIcon style={{ fontSize: 40 }} />) 
+            <FavoriteIcon style={{ fontSize: 40 }} /> :
+            <FavoriteBorderIcon style={{ fontSize: 40 }} />
             }
           </div>
-        </div>
+        </div>: <div />}
         <style jsx>{`
           font-size: 0.9em;
           text-align: center;

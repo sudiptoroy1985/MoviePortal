@@ -7,6 +7,7 @@ export default class MyDocument extends Document {
         <Head>
             <meta name="description" content="A movies portal"></meta>
             <meta charSet="utf-8"></meta>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"/>
             <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
             <link rel="icon" type="image/png" href="/icon.png" />
         </Head>

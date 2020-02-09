@@ -1,16 +1,36 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import Router from 'next/router';
+import NProgress from 'nprogress';
+import { Typography } from '@material-ui/core';
+import Badge from "@material-ui/core/Badge";
 
-export default({children, title}) => (
+Router.onRouteChangeStart = () => {
+    NProgress.start();
+}
+
+Router.onRouteChangeComplete = () => NProgress.done();
+
+Router.onRouteChangeError = () => NProgress.done();
+
+export default({children, title, favourites}) => (
     <div className="root">
         <Head>
             <title>Movies Portal</title>
         </Head>
         <header>
                 <Link href="/movies">
-                    <h1>Movies Rental</h1>
+                    <div>
+                         <Typography>Movies</Typography>
+                    </div>
                 </Link>
+                <Badge badgeContent={favourites} color="primary">
+                    <Link href="/favourites">
+                        <div>
+                            <Typography>Favourites</Typography>
+                        </div>
+                    </Link>
+                </Badge>
         </header>
 
         {children}
@@ -26,15 +46,12 @@ export default({children, title}) => (
 
             header {
                 width: 100%;
+                margin-top: 30px;
                 display: flex;
-                background: #ef5ba1;
+                justify-contents: space-evenly;
+                border-bottom: 2px solid #ef5ba1;
             }
-            header h1 {
-                color: #fff;
-                text-decoration: none;
-                margin-left: 20px;
-                font-size: 1.5em;
-            }
+            
             header a:hover {
                 font-weigth: bold;
                 color: lightgrey;
@@ -44,6 +61,10 @@ export default({children, title}) => (
             }
             h1 {
                 color: #ef5ba1;
+            }
+            div{
+                margin: 0 7px 10px 10px;
+                cursor: pointer;
             }
         `}</style>
     </div>
