@@ -1,20 +1,12 @@
-import Item from "../components/Item";
+import Item from "./Item";
 import { Component } from "react";
 
-export default class ItemList extends Component {
-
-    render() {
-        const { movies, enableFavourites } = this.props;
-
-        return (
-            movies.map(p => <Item 
-                movie={p} 
-                key={p.Name} 
-                enableFavourites={enableFavourites}
-                onMarkedAsFavorite={name => this.props.onMarkedAsFavorite(name)}/>)
-        )
-        
-    }
-
-    
-}
+export default (props) =>
+props.movies.map(p => (
+    <Item
+      movie={p}
+      key={p.Name}
+      enableFavourites={props.enableFavourites}
+      onMarkedAsFavorite={name => props.onMarkedAsFavorite(name)}
+    />
+  ));

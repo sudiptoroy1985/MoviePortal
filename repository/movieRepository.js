@@ -12,24 +12,23 @@ export default class MovieRepository {
         this.movieCollection = store.collection('movies');
     }
 
+    isFavouritePredicate = (collectionRef) => collectionRef.where('isFavourite', '==', true);
+
+    movieNamePredicate = (name, collectionRef) => collectionRef.where('Name', '==', name);
+
+    yearPredicate = (year, collectionRef) => collectionRef.where('Year', '==', year);
+
+    getCollectionData = collection => collection.docs.map(p => p.data());
 
     loadMovies = async () =>  {
       const moviesRef = await this.movieCollection.get(); 
-      const movies = moviesRef.docs.map(p => p.data());
-      return movies;
+      return this.getCollectionData(moviesRef);
     };
 
     loadFavouriteMovies = async () => {
       const moviesRef = await this.isFavouritePredicate(this.movieCollection).get();
-      const movies = moviesRef.docs.map(p => p.data());
-      return movies;
+      return this.getCollectionData(moviesRef);
     }
-
-    isFavouritePredicate = (collectionRef) => collectionRef.where('isFavourite', '==', true)
-
-    movieNamePredicate = (name, collectionRef) => collectionRef.where('Name', '==', name)
-
-    yearPredicate = (year, collectionRef) => collectionRef.where('Year', '==', year)
 
     loadFavouritesTotal = async () => {
        const moviesRef = await this.movieCollection.get();
@@ -43,16 +42,15 @@ export default class MovieRepository {
           query = this.movieNamePredicate(searchText, query);
         }
         let queryResult = await query.get();
-        return queryResult.docs.map(p => p.data());;
+        return this.getCollectionData(queryResult);
     }
 
 
     toggleFavourite = async (movieName) => {
-        let movieResult = await this.movieNamePredicate(movieName, this.movieCollection).get();
-        let movieDoc = movieResult.docs[0];
-        let movieDocResult = movieResult.docs[0].data();
-        let toggledValue = !movieDocResult.isFavourite;
-        this.movieCollection.doc(movieDoc.id).update({
+        let movieCollection = await this.movieNamePredicate(movieName, this.movieCollection).get();
+        let movieDocument = movieCollection.docs[0];
+        let toggledValue = !movieDocument.data().isFavourite;
+        this.movieCollection.doc(movieDocument.id).update({
           isFavourite: toggledValue
         })
         return toggledValue;

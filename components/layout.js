@@ -64,7 +64,7 @@ export default({children, title, favourites}) => (
             h1 {
                 color: #fff;
             }
-            div{
+            span {
                 padding: 0 7px 10px 5px;
                 cursor: pointer;
                 color: #fff;
