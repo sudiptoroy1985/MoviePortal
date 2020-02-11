@@ -73,6 +73,10 @@ export default class Movies extends Component {
               border-radius: 0 0 5px 5px;
           }
 
+          img {
+            border-radius: 5px 5px 0 0;
+          }
+
           .favorite {
               cursor: pointer;
           }

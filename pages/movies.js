@@ -65,12 +65,10 @@ export default class Movies extends Component {
       <Layout title="Movies" favourites={favourites}>
         <div className="container">
           <div className="pane">
-            <NoSsr>
-             <SearchItem search={searchText => this.search(searchText)}/>
-            </NoSsr>
+             <SearchItem search={searchText => this.search(searchText)} />
           </div>
           <div className="movie-list">
-            <ItemList movies={movies} enableFavourites={true} onMarkedAsFavorite={this.toggleFavourite}/>
+            <ItemList movies={movies} enableFavourites={true} onMarkedAsFavorite={this.toggleFavourite} />
           </div>
         </div>
         <style jsx>

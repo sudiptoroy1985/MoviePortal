@@ -12,47 +12,40 @@ export default class MovieRepository {
         this.movieCollection = store.collection('movies');
     }
 
+    isFavouritePredicate = (collectionRef) => collectionRef.where('isFavourite', '==', true);
+
+    movieNamePredicate = (name, collectionRef) => collectionRef.where('Name', '==', name);
+
+    yearPredicate = (year, collectionRef) => collectionRef.where('Year', '==', year);
+
+    getCollectionData = collection => collection.docs.map(p => p.data());
 
     loadMovies = async () =>  {
       const moviesRef = await this.movieCollection.get(); 
-      const movies = moviesRef.docs.map(p => p.data());
-      return movies;
+      return this.getCollectionData(moviesRef);
     };
 
     loadFavouriteMovies = async () => {
       const moviesRef = await this.isFavouritePredicate(this.movieCollection).get();
-      const movies = moviesRef.docs.map(p => p.data());
-      return movies;
+      return this.getCollectionData(moviesRef);
     }
-
-    isFavouritePredicate = (collectionRef) => collectionRef.where('isFavourite', '==', true)
-
-    movieNamePredicate = (name, collectionRef) => collectionRef.where('Name', '==', name)
-
-    yearPredicate = (year, collectionRef) => collectionRef.where('Year', '==', year)
 
     loadFavouritesTotal = async () => {
-       const moviesRef = await this.movieCollection.get();
-       const favourites = moviesRef.docs.map(doc => doc.data().isFavourite);
-       return favourites.reduce((accumulator, item) => accumulator + item,  0);
+       const favouriteMovies = await this.loadFavouriteMovies();
+       return favouriteMovies.length;
     }
 
-    searchMovies = async (searchText) => {
-        let query = this.movieCollection;
-        if(searchText){
-          query = this.movieNamePredicate(searchText, query);
-        }
+    searchMovies = async (movieName) => {
+        let query = movieName ? this.movieNamePredicate(movieName, this.movieCollection) : this.movieCollection;
         let queryResult = await query.get();
-        return queryResult.docs.map(p => p.data());;
+        return this.getCollectionData(queryResult);
     }
-
 
     toggleFavourite = async (movieName) => {
-        let movieResult = await this.movieNamePredicate(movieName, this.movieCollection).get();
-        let movieDoc = movieResult.docs[0];
-        let movieDocResult = movieResult.docs[0].data();
-        let toggledValue = !movieDocResult.isFavourite;
-        this.movieCollection.doc(movieDoc.id).update({
+        let movieCollection = await this.movieNamePredicate(movieName, this.movieCollection).get();
+        let movieDocument = movieCollection.docs[0];
+        let toggledValue = !movieDocument.data().isFavourite;
+        this.movieCollection.doc(movieDocument.id).update({
           isFavourite: toggledValue
         })
         return toggledValue;
