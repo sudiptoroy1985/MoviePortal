@@ -37,10 +37,10 @@ export default class Movies extends Component {
     });
   }
 
-  toggleFavourite = async (movieName) => {
+  toggleFavourite = async (movieId) => {
     const { favourites } = this.state;
-    let toggledState = await this.db.toggleFavourite(movieName);
-    this.updateFavouriteMovieState(movieName, toggledState);
+    let toggledState = await this.db.toggleFavourite(movieId);
+    this.updateFavouriteMovieState(movieId, toggledState);
     this.updateTotalFavouritesCountState(favourites, toggledState);
   }
 
@@ -50,8 +50,8 @@ export default class Movies extends Component {
     });
   }
 
-  updateFavouriteMovieState = (movieName, toggledState) => {
-    let toggledMovie = this.state.movies.find(movie => movie.Name === movieName);
+  updateFavouriteMovieState = (movieId, toggledState) => {
+    let toggledMovie = this.state.movies.find(movie => movie.Id === movieId);
     toggledMovie.isFavourite = toggledState;
     this.setState({
       movies: [...this.state.movies]
@@ -62,7 +62,7 @@ export default class Movies extends Component {
     const { favourites, movies} = this.state;
 
     return (
-      <Layout title="Movies" favourites={favourites}>
+      <Layout title="asas" favourites={favourites}>
         <div className="container">
           <div className="pane">
              <SearchItem search={searchText => this.search(searchText)} />

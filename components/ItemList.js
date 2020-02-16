@@ -5,8 +5,8 @@ export default (props) =>
 props.movies.map(p => (
     <Item
       movie={p}
-      key={p.Name}
+      key={p.Id}
       enableFavourites={props.enableFavourites}
-      onMarkedAsFavorite={name => props.onMarkedAsFavorite(name)}
+      onMarkedAsFavorite={id => props.onMarkedAsFavorite(id)}
     />
   ));

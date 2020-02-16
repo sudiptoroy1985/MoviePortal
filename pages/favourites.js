@@ -15,7 +15,7 @@ export default class Favourites extends Component {
 
     return (
       <div>
-        <Layout title="Favourites">
+        <Layout title="erre">
         <div className="container">
           <div className="favourite-movie-list">
             <ItemList movies={favouriteMovies} />

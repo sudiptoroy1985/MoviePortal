@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "deploy": "/usr/local/Cellar/node/13.7.0/bin/now --prod"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +21,8 @@
     "nprogress": "^0.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "now": "^17.0.3"
   }
 }
